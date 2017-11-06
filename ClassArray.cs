@@ -8,64 +8,67 @@ namespace Laba2
 {
     class ClassArray<T> where T : ITransport
     {
-        private T[] places;
-        private T defaultValue;
 
-        public ClassArray(int sizes,T defVal)
+        private Dictionary<int, T> places;
+        private int maxCount;
+        //private T[] places;
+        private T defaultValue;
+        
+
+      public ClassArray(int sizes,T defVal)
         {
             defaultValue = defVal;
-            places = new T[sizes];
-            for (int i=0;i<places.Length;i++)
-            {
-                places[i] = defaultValue;
-            }
+            places = new Dictionary<int, T>();
+            maxCount = sizes;
+            
         }
-        public T getObject(int ind)
-        {
-            if(ind>-1 && ind < places.Length)
+        
+      
+       public static int operator +(ClassArray<T> p,T car)
+       {
+            if(p.places.Count==p.maxCount)
             {
-                return places[ind];
+                return -1;
             }
-            return defaultValue;
-        }
-        public static int operator +(ClassArray<T> p,T car)
+           for (int i=0;i<p.places.Count;i++)
+           {
+               if (p.CheckFreePlace(i))
+               {
+                   p.places.Add(i,car);
+                   return i;
+               }
+           }
+            p.places.Add(p.places.Count, car);
+            return p.places.Count - 1;
+           
+       }
+       public static T operator -(ClassArray<T> p,int index)
+       {
+           if (p.places.ContainsKey(index))
+           {
+               T car = p.places[index];
+               p.places.Remove(index);
+               return car;
+           }
+           return p.defaultValue;
+       }
+       private bool CheckFreePlace(int index)
+       {
+           
+           return !places.ContainsKey(index);
+       }
+        public T this[int ind]
         {
-            for (int i=0;i<p.places.Length;i++)
-            {
-                if (p.CheckFreePlace(i))
+            get{
+                if (places.ContainsKey(ind))
                 {
-                    p.places[i] = car;
-                    return i;
+                    return places[ind];
                 }
+                return defaultValue;
             }
-            return -1;
         }
-        public static T operator -(ClassArray<T> p,int index)
-        {
-            if (!p.CheckFreePlace(index))
-            {
-                T car = p.places[index];
-                p.places[index] = p.defaultValue;
-                return car;
-            }
-            return p.defaultValue;
-        }
-        private bool CheckFreePlace(int index)
-        {
-            if (index<0|| index>places.Length)
-            {
-                return false;
-            }
-            if(places[index]==null)
-            {
-                return true;
-            }
-            if(places[index].Equals(defaultValue))
-            {
-                return true;
-            }
-            return false;
-        }
+
+
     }
-    
+
 }
