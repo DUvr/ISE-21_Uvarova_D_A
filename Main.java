@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.Graphics;
 
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -27,7 +28,9 @@ public class Main {
 	private Frame btnColor;
 	private Frame btnSelectGruzovikColor;
 	private JTextField numPlace;
-
+	JPanel panel;
+	private String[] elements = new String[6];
+	JList listLevels;
 	/**
 	 * Launch the application.
 	 */
@@ -48,11 +51,15 @@ public class Main {
 	 * Create the application.
 	 */
 	public Main() {
-		parking = new Parking();
+		parking = new Parking(5);
 	
 		initialize();
 	    
-	    
+		for (int i = 0; i < 5; i++) {
+			elements[i] = "Уровень " + (i+1);
+		}
+
+		listLevels.setSelectedIndex(parking.getCurrentLevel());
 	}
 
 	/**
@@ -60,13 +67,13 @@ public class Main {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1191, 852);
+		frame.setBounds(100, 100, 1420, 852);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 
 		JPanel panel = new Panel(parking);
-		panel.setBounds(10, 11, 986, 474);
+		panel.setBounds(12, 11, 986, 474);
 		frame.getContentPane().add(panel);
 		
 		
@@ -86,13 +93,13 @@ public class Main {
 
 			}
 		});
-		btnSetPlane.setBounds(86, 498, 199, 39);
+		btnSetPlane.setBounds(1026, 107, 199, 39);
 		frame.getContentPane().add(btnSetPlane);
 
-		JButton btnSetGruzovik = new JButton("\u041F\u0440\u0438\u043F\u0430\u0440\u043A\u043E\u0432\u0430\u0442\u044C \u0432\u043D\u0435\u0434\u043E\u0440\u043E\u0436\u043D\u0438\u043A");
-		btnSetGruzovik.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JButton btnSetVnedorozhnik = new JButton("\u041F\u0440\u0438\u043F\u0430\u0440\u043A\u043E\u0432\u0430\u0442\u044C \u0432\u043D\u0435\u0434\u043E\u0440\u043E\u0436\u043D\u0438\u043A");
+		btnSetVnedorozhnik.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		btnSetGruzovik.addActionListener(new ActionListener() {
+		btnSetVnedorozhnik.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Color colorDialog1 = JColorChooser.showDialog(null, "Выберите основной цвет", null);
 				if (colorDialog1 != null) {
@@ -109,13 +116,13 @@ public class Main {
 
 			}
 		});
-		btnSetGruzovik.setBounds(408, 498, 291, 39);
-		frame.getContentPane().add(btnSetGruzovik);
+		btnSetVnedorozhnik.setBounds(1026, 195, 266, 39);
+		frame.getContentPane().add(btnSetVnedorozhnik);
 
 		JPanel panelTake = new JPanel();
 		panelTake.setForeground(Color.BLACK);
 		panelTake.setBackground(Color.WHITE);
-		panelTake.setBounds(548, 599, 291, 170);
+		panelTake.setBounds(1026, 357, 291, 170);
 		frame.getContentPane().add(panelTake);
 
 		JButton btnTake = new JButton("Забрать машину");
@@ -136,7 +143,7 @@ public class Main {
 				
 			}
 		});
-		btnTake.setBounds(266, 599, 163, 62);
+		btnTake.setBounds(1154, 269, 163, 62);
 		frame.getContentPane().add(btnTake);
 
 		JLabel lblNewLabel = new JLabel("Место:");
@@ -147,11 +154,44 @@ public class Main {
 
 		numPlace = new JTextField();
 		numPlace.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		numPlace.setBounds(103, 599, 86, 28);
+		numPlace.setBounds(1026, 287, 86, 28);
 		frame.getContentPane().add(numPlace);
 		numPlace.setColumns(10);
 		
-	}
+	
+	
+	listLevels = new JList(elements);
+	listLevels.setForeground(Color.BLUE);
+	listLevels.setFont(new Font("Tahoma", Font.PLAIN, 12));
+	listLevels.setBackground(Color.LIGHT_GRAY);
+	listLevels.setBounds(1246, 11, 144, 135);
+	frame.getContentPane().add(listLevels);
+
+	JButton btnLevelDown = new JButton("<<");
+	btnLevelDown.setBackground(Color.LIGHT_GRAY);
+	btnLevelDown.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			parking.levelDown();
+			listLevels.setSelectedIndex(parking.getCurrentLevel());
+			panel.repaint();
+		}
+	});
+	btnLevelDown.setBounds(1246, 159, 71, 23);
+	frame.getContentPane().add(btnLevelDown);
+
+	JButton btnLevelUp = new JButton(">>");
+	btnLevelUp.setBackground(Color.LIGHT_GRAY);
+	btnLevelUp.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			parking.levelUp();
+			listLevels.setSelectedIndex(parking.getCurrentLevel());
+			panel.repaint();
+		}
+	});
+	btnLevelUp.setBounds(1319, 159, 71, 23);
+	frame.getContentPane().add(btnLevelUp);
+
+}
 	
 	private boolean checkPlace(String str) {
 		try {
