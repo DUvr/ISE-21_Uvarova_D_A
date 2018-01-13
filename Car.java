@@ -10,7 +10,7 @@ public class Car extends Vehicle {
 		this.color = colorCar;
 		this.countPassengers = countPassengers;
 
-		startX = 60;
+		startX = 80;
 		startY = 100;
 
 	}
@@ -89,24 +89,24 @@ public class Car extends Vehicle {
 
 	protected void drawCarPlane(Graphics g) {
 		
-		// РєСѓР·РѕРІ
+		// кузов
 		g.setColor(color);
         g.fillRect(startX, startY, 150, 100);
         g.fillRect(startX + 180, startY , 30, 100);
 		
 
-		// СЃС‚РµРєР»Р°
+		// стекла
 		g.setColor(Color.BLUE);
 		g.fillRect(startX-10, startY, 10, 100);
         g.fillRect(startX + 150, startY, 30, 100);
 
-		// РІС‹РґРµР»СЏРµРј СЂР°РјРєРѕР№ РєСЂС‹С€Сѓ
+		// выделяем рамкой крышу
 		g.setColor(Color.BLACK);
 		 g.drawRect(startX, startY, 150, 100);
          g.drawRect(startX + 180, startY, 30, 100);
          g.drawRect(startX-10, startY, 220, 100);
          
-       //С„Р°СЂС‹
+       //фары
          g.setColor(Color.YELLOW);
          g.fillRect(startX+200, startY, 10, 30);
          g.fillRect(startX + 200, startY+70, 10, 30);
