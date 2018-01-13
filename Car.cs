@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Laba4
+namespace Laba2
 {
-    public class Car : Vehicle
+   public  class Car:Vehicle
     {
-
-        public override int MaxSpeed
+        
+public override int MaxSpeed
         {
             get
             {
@@ -95,9 +95,7 @@ namespace Laba4
             this.Weight = weight;
             this.countPassengers = 0;
             this.countToplivo = 0;
-            //Random rand = new Random();
-            //startPosX = rand.Next(10, 200);
-            //startPosY = rand.Next(10, 200);
+            
         }
         public override void moveCar(Graphics g)
         {
@@ -113,30 +111,30 @@ namespace Laba4
         protected virtual void drawLightCar(Graphics g)
         {
             //границы машины 
-
+       
             //кузов 
             Brush br = new SolidBrush(ColorBody);
             g.FillRectangle(br, startPosX, startPosY, 150, 100);
-            g.FillRectangle(br, startPosX + 180, startPosY, 30, 100);
+            g.FillRectangle(br, startPosX + 180, startPosY , 30, 100);
 
             //стекла 
             Brush brBlue = new SolidBrush(Color.LightBlue);
-            g.FillRectangle(brBlue, startPosX - 10, startPosY, 10, 100);
+            g.FillRectangle(brBlue, startPosX-10, startPosY, 10, 100);
             g.FillRectangle(brBlue, startPosX + 150, startPosY, 30, 100);
 
             //выделяем рамкой крышу 
             Pen pen = new Pen(Color.Black);
             g.DrawRectangle(pen, startPosX, startPosY, 150, 100);
             g.DrawRectangle(pen, startPosX + 180, startPosY, 30, 100);
-            g.DrawRectangle(pen, startPosX - 10, startPosY, 220, 100);
+            g.DrawRectangle(pen, startPosX-10, startPosY, 220, 100);
 
             //фары
             Brush brY = new SolidBrush(Color.Yellow);
-            g.FillRectangle(brY, startPosX + 200, startPosY, 10, 30);
-            g.FillRectangle(brY, startPosX + 200, startPosY + 70, 10, 30);
+            g.FillRectangle(brY, startPosX+200, startPosY, 10, 30);
+            g.FillRectangle(brY, startPosX + 200, startPosY+70, 10, 30);
             Brush brR = new SolidBrush(Color.Red);
-            g.FillRectangle(brR, startPosX - 15, startPosY, 5, 20);
-            g.FillRectangle(brR, startPosX - 15, startPosY + 80, 5, 20);
+            g.FillRectangle(brR, startPosX -15, startPosY, 5, 20);
+            g.FillRectangle(brR, startPosX -15, startPosY+80 , 5, 20);
 
 
         }

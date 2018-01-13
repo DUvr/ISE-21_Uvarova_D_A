@@ -48,7 +48,7 @@
             // 
             this.pictureBoxParking.Location = new System.Drawing.Point(2, 3);
             this.pictureBoxParking.Name = "pictureBoxParking";
-            this.pictureBoxParking.Size = new System.Drawing.Size(1283, 664);
+            this.pictureBoxParking.Size = new System.Drawing.Size(1298, 664);
             this.pictureBoxParking.TabIndex = 0;
             this.pictureBoxParking.TabStop = false;
             // 

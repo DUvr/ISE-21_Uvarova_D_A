@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Laba4
+namespace Laba2
 {
+    public delegate void myDel(Laba2.ITransport car);
     static class Program
     {
         /// <summary>
@@ -14,9 +15,11 @@ namespace Laba4
         [STAThread]
         static void Main()
         {
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            // Application.Run(new Form1());
+            Application.Run(new Form2());
         }
     }
 }

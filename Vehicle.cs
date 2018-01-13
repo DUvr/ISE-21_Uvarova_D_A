@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Laba4
+namespace Laba2
 {
     public abstract class Vehicle : ITransport
     {
@@ -50,8 +50,10 @@ namespace Laba4
             int count = countToplivo;
             countToplivo = 0;
             return count;
-
-
+        }
+        public virtual void setMainColor(Color color)
+        {
+            ColorBody = color;
         }
     }
 }
