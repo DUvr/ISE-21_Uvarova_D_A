@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Laba2
+namespace Laba4
 {
     public interface ITransport
     {
-       
+
         void moveCar(Graphics g);
 
         void drawCar(Graphics g);

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Laba2
+namespace Laba4
 {
     public abstract class Vehicle : ITransport
     {

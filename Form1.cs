@@ -8,124 +8,118 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Laba2
+namespace Laba4
 {
     public partial class Form1 : Form
     {
-        Color color;
-        Color dopColor;
-        int maxSpeed;
-        int maxCountPass;
-        int maxCountCapa;
-        int weight;
 
-        private ITransport inter;
+
+        Parking parking;
+        int placesSizeWidth = 250;
+        int placeSizeHight = 150;
+
         public Form1()
         {
             InitializeComponent();
-            color = Color.Red;
-            dopColor = Color.Yellow;
-            maxSpeed = 150;
-            maxCountPass = 4;
-            weight = 1500;
-            buttonSelectColor.BackColor = color;
-            buttonSelectDopColor.BackColor = dopColor;
-        }
+            parking = new Parking(5);
+            for (int i = 1; i < 6; i++)
+            {
+                listBox.Items.Add("Уровень " + i);
+            }
+            listBox.SelectedIndex = parking.getCurrentLevel;
 
-        private void buttonSelectColor_Click(object sender, EventArgs e)
-        {
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == DialogResult.OK)
-            {
-                color = cd.Color;
-                buttonSelectColor.BackColor = color;
-            }
+            Draw();
         }
-
-        private void buttonSelectDopColor_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Метод для отрисовки парковки
+        /// </summary>
+        private void Draw()
         {
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                dopColor = cd.Color;
-                buttonSelectDopColor.BackColor = dopColor;
-            }
-        }
+            if (listBox.SelectedIndex > -1)
+            {//если выбран один из пуктов в listBox (при старте программы ни один пункт не будет выбран и может возникнуть ошибка, если мы попытаемся обратиться к элементу listBox)
 
-        private bool checkFields()
-        {
-            if (!int.TryParse(textBoxMaxSpeed.Text, out maxSpeed))
-            {
-                return false;
-            }
-            if (!int.TryParse(textBoxMaxCountPassenget.Text, out maxCountPass))
-            {
-                return false;
-            }
-            if (!int.TryParse(textBoxToplivo.Text, out maxCountCapa))
-            {
-                return false;
-            }
-            if (!int.TryParse(textBoxWeight.Text, out weight))
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private void buttonSetAuto_Click(object sender, EventArgs e)
-        {
-            if (checkFields())
-            {
-                inter = new Car(maxSpeed, maxCountPass, maxCountCapa, weight, color);
-                Bitmap bmp = new Bitmap(pictureBoxDraw.Width, pictureBoxDraw.Height);
+                Bitmap bmp = new Bitmap(pictureBoxParking.Width, pictureBoxParking.Height);
                 Graphics gr = Graphics.FromImage(bmp);
-                inter.drawCar(gr);
-                pictureBoxDraw.Image = bmp;
+                parking.Draw(gr, placesSizeWidth, placeSizeHight);
+                pictureBoxParking.Image = bmp;
             }
         }
 
-        private void buttonSetSportSedan_Click(object sender, EventArgs e)
+
+        private void button1_Click(object sender, EventArgs e) //down
         {
-            inter = new Vnedorozhnik(150, 4, 7, 1000, Color.Black, true, true, true, Color.Yellow);
-            Bitmap bmp = new Bitmap(pictureBoxDraw.Width, pictureBoxDraw.Height);
-            Graphics gr = Graphics.FromImage(bmp);
-            inter.drawCar(gr);
-            pictureBoxDraw.Image = bmp;
+            parking.LevelDown();
+            listBox.SelectedIndex = parking.getCurrentLevel;
+            Draw();
         }
 
-        private void buttonMove_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) //up
         {
-            if (inter != null)
+            parking.LevelUp();
+            listBox.SelectedIndex = parking.getCurrentLevel;
+            Draw();
+        }
+
+
+        private void buttonSetCar_Click_1(object sender, EventArgs e)
+        {
+            ColorDialog dialog = new ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                Bitmap bmp = new Bitmap(pictureBoxDraw.Width, pictureBoxDraw.Height);
-                Graphics gr = Graphics.FromImage(bmp);
-                inter.moveCar(gr);
-                pictureBoxDraw.Image = bmp;
+                var car = new Car(100, 4, 10, 1600, dialog.Color);
+                int place = parking.PutCarInParking(car);
+                Draw();
+                MessageBox.Show("Ваше место: " + place);
             }
+
         }
 
-        private void buttonSetGruzovik_Click(object sender, EventArgs e)
+
+
+
+        private void buttonSetVnedorozhnik_Click(object sender, EventArgs e)
         {
-            if (checkFields())
+            ColorDialog dialog = new ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                inter = new Vnedorozhnik(maxSpeed, maxCountPass, maxCountCapa, weight, color, checkBoxFrontSpoiler.Checked,
-                checkBoxBackSpoiler.Checked, checkBoxSideSpoiler.Checked, dopColor);
-                Bitmap bmp = new Bitmap(pictureBoxDraw.Width, pictureBoxDraw.Height);
-                Graphics gr = Graphics.FromImage(bmp);
-                inter.drawCar(gr);
-                pictureBoxDraw.Image = bmp;
+                ColorDialog dialogDop = new ColorDialog();
+                if (dialogDop.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var car = new Vnedorozhnik(100, 4, 10, 1600, dialog.Color, true, true, true, dialogDop.Color);
+                    int place = parking.PutCarInParking(car);
+                    Draw();
+                    MessageBox.Show("Ваше место: " + place);
+                }
             }
+
         }
 
-        private void pictureBoxDraw_Click(object sender, EventArgs e)
+        private void buttonTakeCar_Click(object sender, EventArgs e)
         {
-        }
+            if (listBox.SelectedIndex > -1)
+            {
+                string level = listBox.Items[listBox.SelectedIndex].ToString();
 
-        private void textBoxСapacity_TextChanged(object sender, EventArgs e)
-        {
+                if (maskedTextBox1.Text != "")
+                {
+                    ITransport car = parking.GetCarInParking(Convert.ToInt32(maskedTextBox1.Text));
+                    if (car != null)
+                    {//если удалось забрать, то отрисовываем
+                        Bitmap bmp = new Bitmap(pictureBoxTakeCar.Width, pictureBoxTakeCar.Height);
+                        Graphics gr = Graphics.FromImage(bmp);
+                        car.setPosition(150, 5);
+                        car.drawCar(gr);
+                        pictureBoxTakeCar.Image = bmp;
+                        Draw();
+                    }
+                    else
+                    {//иначе сообщаем об этом
+                        MessageBox.Show("Извинте, на этом месте нет машины");
+                    }
+                }
+            }
 
         }
     }
 
-    }
+}

@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Laba2
+namespace Laba4
 {
     class Parking
     {
         ClassArray<ITransport> parking;
-        
-        List< ClassArray<ITransport>> parkingStages;
+
+        List<ClassArray<ITransport>> parkingStages;
         int countPlaces = 20;
         int placesSizeWidth = 250;
         int placeSizeHight = 150;
@@ -19,14 +19,14 @@ namespace Laba2
 
         public int getCurrentLevel { get { return currentLevel; } }
         public Parking(int countStages)
-       {
+        {
             parkingStages = new List<ClassArray<ITransport>>(countStages);
             for (int i = 0; i < countStages; i++)
             {
-                parking= new ClassArray<ITransport>(countPlaces,null);
+                parking = new ClassArray<ITransport>(countPlaces, null);
                 parkingStages.Add(parking);
             }
-            
+
         }
 
         public void LevelUp()
@@ -38,8 +38,8 @@ namespace Laba2
         }
         public void LevelDown()
         {
-            if(currentLevel>0)
-                {
+            if (currentLevel > 0)
+            {
                 currentLevel--;
             }
         }
@@ -52,13 +52,13 @@ namespace Laba2
         {
             return parkingStages[currentLevel] - ticket;
         }
-        public void Draw(Graphics g,int width, int heigt)
+        public void Draw(Graphics g, int width, int heigt)
         {
             DrawMarking(g);
             for (int i = 0; i < countPlaces; i++)
             {
                 var car = parkingStages[currentLevel][i];
-                if (car!=null)
+                if (car != null)
                 {
                     car.setPosition(5 + i / 5 * placesSizeWidth + 25, i % 5 * placeSizeHight + 15);
                     car.drawCar(g);
@@ -72,21 +72,21 @@ namespace Laba2
             g.DrawString("L" + (currentLevel + 1), new Font("Arial", 30), new SolidBrush(Color.Blue), (countPlaces / 5) * placesSizeWidth - 70, 420);
 
             g.DrawRectangle(pen, 0, 0, (countPlaces / 2) * placeSizeHight, 600);
-            g.DrawLine(pen, 0, placeSizeHight,50, placeSizeHight);
-            g.DrawLine(pen, 0, placeSizeHight+150, 50, placeSizeHight+150);
-            g.DrawLine(pen, 0, placeSizeHight+300, 50, placeSizeHight+300);
-            for (int i=0;i<countPlaces/5;i++)
+            g.DrawLine(pen, 0, placeSizeHight, 50, placeSizeHight);
+            g.DrawLine(pen, 0, placeSizeHight + 150, 50, placeSizeHight + 150);
+            g.DrawLine(pen, 0, placeSizeHight + 300, 50, placeSizeHight + 300);
+            for (int i = 0; i < countPlaces / 5; i++)
             {
-                for (int j=0;j<6;j++)
+                for (int j = 0; j < 6; j++)
                 {
-                    g.DrawLine(pen, i * placesSizeWidth+20, j * placeSizeHight,i * placesSizeWidth + 150, j * placeSizeHight);
-                   if(j<5)
+                    g.DrawLine(pen, i * placesSizeWidth + 20, j * placeSizeHight, i * placesSizeWidth + 150, j * placeSizeHight);
+                    if (j < 5)
                     {
                         g.DrawString((i * 5 + j + 1).ToString(), new Font("Arial", 30), new SolidBrush(Color.Blue), i * placesSizeWidth + 30, j * placeSizeHight + 20);
                     }
                 }
-                
-                g.DrawLine(pen, i * placesSizeWidth+270, 0, i * placesSizeWidth+270, 700);
+
+                g.DrawLine(pen, i * placesSizeWidth + 270, 0, i * placesSizeWidth + 270, 700);
             }
         }
     }
