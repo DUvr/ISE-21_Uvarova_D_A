@@ -64,15 +64,7 @@ namespace Laba2
 
         private void buttonSetCar_Click_1(object sender, EventArgs e)
         {
-            /*ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                var car = new Car(100, 4, 10, 1600, dialog.Color);
-                int place = parking.PutCarInParking(car);
-                Draw();
-                MessageBox.Show("Ваше место: " + place);
-            }
-            */
+            
             form = new FormDelectCar();
             form.AddEvent(AddCar);
             form.Show();
@@ -141,8 +133,42 @@ namespace Laba2
 
         }
 
-       
-       
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (parking.SaveData(saveFileDialog1.FileName))
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не сохранилось", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+        }
+
+        private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (parking.LoadData(openFileDialog1.FileName))
+                {
+                    MessageBox.Show("Загрузили", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не загрузили", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                Draw();
+            }
+
+        }
 
        
     }
