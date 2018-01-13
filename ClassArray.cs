@@ -11,7 +11,7 @@ namespace Laba2
 
         private Dictionary<int, T> places;
         private int maxCount;
-        //private T[] places;
+      
         private T defaultValue;
         
 
