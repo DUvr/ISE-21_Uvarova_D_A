@@ -11,7 +11,7 @@ namespace Laba2
 
         private Dictionary<int, T> places;
         private int maxCount;
-        //private T[] places;
+       
         private T defaultValue;
         
 
@@ -28,7 +28,7 @@ namespace Laba2
        {
             if(p.places.Count==p.maxCount)
             {
-                return -1;
+                throw new ParkingOverflowException();
             }
            for (int i=0;i<p.places.Count;i++)
            {
@@ -50,8 +50,8 @@ namespace Laba2
                p.places.Remove(index);
                return car;
            }
-           return p.defaultValue;
-       }
+            throw new ParkingIndexOutOfRangeException();
+        }
        private bool CheckFreePlace(int index)
        {
            
