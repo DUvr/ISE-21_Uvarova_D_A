@@ -9,7 +9,7 @@ namespace Laba2
     class ParkingIndexOutOfRangeException : Exception
     {
         public ParkingIndexOutOfRangeException() :
-        base("На парковке нет машин по такому месту")
+        base("На парковке нет машины по такому месту")
         { }
     }
 }
