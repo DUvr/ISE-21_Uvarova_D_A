@@ -94,9 +94,6 @@ namespace Laba2
             this.Weight = weight;
             this.countPassengers = 0;
             this.countToplivo = 0;
-            //Random rand = new Random();
-            //startPosX = rand.Next(10, 200);
-            //startPosY = rand.Next(10, 200);
         }
 
         public Car(string info)
