@@ -13,7 +13,7 @@ namespace Laba2
         ClassArray<ITransport> parking;
         
         List< ClassArray<ITransport>> parkingStages;
-        int countPlaces = 20;
+        int countPlaces = 15;
         int placesSizeWidth = 250;
         int placeSizeHight = 150;
         int currentLevel;
@@ -56,14 +56,14 @@ namespace Laba2
         public void Draw(Graphics g,int width, int heigt)
         {
             DrawMarking(g);
-            for (int i = 0; i < countPlaces; i++)
+            int i = 0;
+            foreach (var car in parkingStages[currentLevel])
             {
-                var car = parkingStages[currentLevel][i];
-                if (car!=null)
-                {
-                    car.setPosition(5 + i / 5 * placesSizeWidth + 25, i % 5 * placeSizeHight + 15);
-                    car.drawCar(g);
-                }
+
+                car.setPosition(5 + i / 5 * placesSizeWidth + 45, i % 5 * placeSizeHight + 15);
+                car.drawCar(g);
+                i++;
+
             }
         }
         private void DrawMarking(Graphics g)
@@ -72,7 +72,7 @@ namespace Laba2
 
             g.DrawString("L" + (currentLevel + 1), new Font("Arial", 30), new SolidBrush(Color.Blue), (countPlaces / 5) * placesSizeWidth - 70, 420);
 
-            g.DrawRectangle(pen, 0, 0, (countPlaces / 2) * placeSizeHight, 600);
+            g.DrawRectangle(pen, 0, 0, (countPlaces / 2) * placeSizeHight, 800);
             g.DrawLine(pen, 0, placeSizeHight,50, placeSizeHight);
             g.DrawLine(pen, 0, placeSizeHight+150, 50, placeSizeHight+150);
             g.DrawLine(pen, 0, placeSizeHight+300, 50, placeSizeHight+300);
@@ -203,6 +203,10 @@ namespace Laba2
                 }
             }
             return true;
+        }
+        public void Sort()
+        {
+            parkingStages.Sort();
         }
     }
 }

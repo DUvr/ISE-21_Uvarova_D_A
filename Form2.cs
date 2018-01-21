@@ -19,6 +19,7 @@ namespace Laba2
         FormDelectCar form;
         int placesSizeWidth = 250;
         int placeSizeHight = 150;
+
         private Logger log;
 
         public Form2()
@@ -54,56 +55,54 @@ namespace Laba2
         {
             parking.LevelDown();
             listBox.SelectedIndex = parking.getCurrentLevel;
+            log.Info("Переход на уровень ниже. Текущий уровень: " + parking.getCurrentLevel);
             Draw();
-            log.Info("спустились на уровень");
         }
 
         private void button2_Click(object sender, EventArgs e) //up
         {
             parking.LevelUp();
             listBox.SelectedIndex = parking.getCurrentLevel;
+            log.Info("Переход на уровень выше. Текущий уровень: " + parking.getCurrentLevel);
             Draw();
-            log.Info("Поднялись на уровень");
         }
 
 
         private void buttonSetCar_Click_1(object sender, EventArgs e)
         {
-            
+    
             form = new FormDelectCar();
             form.AddEvent(AddCar);
             form.Show();
-
-            log.Info("меню для выборки цвета");
-
+            log.Info("Меню для выборки цвета для машины");
+            
         }
 
         private void AddCar(ITransport car)
         {
-             if (car != null)
+            if (car != null)
             {
-                 
-                 try
-                 {
-                     int place = parking.PutCarInParking(car);
-                     Draw();
-                     MessageBox.Show("Ваше место: " + place);
-                     log.Info("Машина или внедорожник добавлены");
-                 }
-                 catch (ParkingOverflowException ex)
-                 {
-                     MessageBox.Show(ex.Message, "Ошибка переполнения",
-                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-                 }
-                 catch(Exception ex)
-                 {
-                     MessageBox.Show(ex.Message, "Общая ошибка ",
-                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-                 
-                 }
-             }
-         }
- 
+                
+                try
+                {
+                    int place = parking.PutCarInParking(car);
+                    Draw();
+                    MessageBox.Show("Ваше место: " + place);
+                    log.Info("Машина или внедорожник добавлены");
+                }
+                catch (ParkingOverflowException ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка переполнения",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Общая ошибка ",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                }
+            }
+        }
 
 
         private void buttonSetVnedorozhnik_Click(object sender, EventArgs e)
@@ -118,10 +117,10 @@ namespace Laba2
                     int place = parking.PutCarInParking(car);
                     Draw();
                     MessageBox.Show("Ваше место: " + place);
-                    log.Info("Номер парковочного места выведен на экран");
+                    log.Info("Припаркован Внедорожник на место " + place);
                 }
             }
-
+            
         }
 
         private void buttonTakeCar_Click(object sender, EventArgs e)
@@ -131,7 +130,7 @@ namespace Laba2
                 string level = listBox.Items[listBox.SelectedIndex].ToString();
 
                 if (maskedTextBox1.Text != "")
-            {
+                {
                     try
                     {
                         ITransport car = parking.GetCarInParking(Convert.ToInt32(maskedTextBox1.Text));
@@ -143,23 +142,25 @@ namespace Laba2
                             car.drawCar(gr);
                             pictureBoxTakeCar.Image = bmp;
                             Draw();
-                            log.Info("машину забрали");
                         }
+                        log.Info("Машину или Внедорожник забрали");
+
                     }
                     catch (ParkingIndexOutOfRangeException ex)
                     {
                         MessageBox.Show(ex.Message, "Неверный номер",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message, "Общая ошибка ",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     }
-                    }
+                }   
+                
             }
-
+            
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -199,7 +200,11 @@ namespace Laba2
 
         }
 
-       
+        private void buttonSort_Click(object sender, EventArgs e)
+        {
+            parking.Sort();
+            Draw();
+        }
     }
 
     }

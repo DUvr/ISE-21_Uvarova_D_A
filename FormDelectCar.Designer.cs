@@ -197,7 +197,7 @@
             this.ButtonCancel.TabIndex = 5;
             this.ButtonCancel.Text = "Отмена";
             this.ButtonCancel.UseVisualStyleBackColor = true;
-            // 
+            
             // labelVnedorozhnik
             // 
             this.labelVnedorozhnik.AllowDrop = true;

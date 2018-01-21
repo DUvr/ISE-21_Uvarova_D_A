@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,7 @@ namespace Laba2
 {
     public partial class FormDelectCar : Form
     {
-
+        private Logger log;
         /// <summary> 
         /// Переменная-выбранная машина 
         /// </summary> 
@@ -70,6 +71,7 @@ namespace Laba2
         private void LebelCar_MouseDown(object sender, MouseEventArgs e)
         {
             labelCar.DoDragDrop(labelCar.Text, DragDropEffects.Move | DragDropEffects.Copy);
+            
         }
 
         private void panelCar_DragDrop(object sender, DragEventArgs e)
@@ -83,6 +85,7 @@ namespace Laba2
                     car = new Vnedorozhnik(100, 4, 3, 500, Color.Black, true, true, true, Color.Black);
                     break;
             }
+           
             DrawCar();
         }
         private void panelCar_DragEnter(object sender, DragEventArgs e)
@@ -114,11 +117,14 @@ namespace Laba2
         {
             (sender as Control).DoDragDrop((sender as Control).BackColor,
 DragDropEffects.Move | DragDropEffects.Copy);
+
+          
         }
 
         private void labelVnedorozhnik_MouseDown(object sender, MouseEventArgs e)
         {
             labelVnedorozhnik.DoDragDrop(labelVnedorozhnik.Text, DragDropEffects.Move | DragDropEffects.Copy);
+            
         }
 
         private void labelDopColor_DragDrop(object sender, DragEventArgs e)
@@ -141,13 +147,12 @@ DragDropEffects.Move | DragDropEffects.Copy);
             {
                 eventAddCar(car);
             }
+            
             Close();
+            
         }
 
-        private void labelBaseColor_DragEnter(object sender, DragEventArgs e)
-        {
-
-        }
+       
     }
 }
 

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Laba2
 {
-   public  class Car:Vehicle
+    public class Car : Vehicle, IComparable<Car>, IEquatable<Car>
     {
-        
-public override int MaxSpeed
+        public override int MaxSpeed
         {
             get
             {
@@ -19,7 +18,7 @@ public override int MaxSpeed
 
             protected set
             {
-                if (value > 0 && value < 300)
+                if (value > 0 && value < 200)
                 {
                     base.MaxSpeed = value;
                 }
@@ -57,13 +56,13 @@ public override int MaxSpeed
 
             protected set
             {
-                if (value > 5 && value < 15)
+                if (value > 0 && value < 9)
                 {
                     base.MaxCountToplivo = value;
                 }
                 else
                 {
-                    base.MaxCountToplivo = 10;
+                    base.MaxCountToplivo = 7;
                 }
             }
         }
@@ -76,13 +75,13 @@ public override int MaxSpeed
 
             protected set
             {
-                if (value > 1500 && value < 3000)
+                if (value > 1500 && value < 5000)
                 {
                     base.Weight = value;
                 }
                 else
                 {
-                    base.Weight = 1500;
+                    base.Weight = 2000;
                 }
             }
         }
@@ -95,6 +94,9 @@ public override int MaxSpeed
             this.Weight = weight;
             this.countPassengers = 0;
             this.countToplivo = 0;
+            //Random rand = new Random();
+            //startPosX = rand.Next(10, 200);
+            //startPosY = rand.Next(10, 200);
         }
 
         public Car(string info)
@@ -163,5 +165,79 @@ public override int MaxSpeed
             return MaxSpeed + ";" + MaxCountPassengers + ";" + MaxCountToplivo + ";"
                 + Weight + ";" + ColorBody.Name;
         }
+
+       
+        public int CompareTo(Car other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return MaxSpeed.CompareTo(other.MaxSpeed);
+            }
+            
+            if (MaxCountPassengers != other.MaxCountPassengers)
+            {
+                return MaxCountPassengers.CompareTo(other.MaxCountPassengers);
+            }
+            if (MaxCountToplivo != other.MaxCountToplivo)
+            {
+                return MaxCountToplivo.CompareTo(other.MaxCountToplivo);
+            }
+            if (Weight != other.Weight)
+            {
+                return Weight.CompareTo(other.Weight);
+            }
+            if (ColorBody != other.ColorBody)
+            {
+                return ColorBody.Name.CompareTo(other.ColorBody.Name);
+            }
+            return 0;
+        }
+
+        public bool Equals(Car other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (MaxCountPassengers != other.MaxCountPassengers)
+            {
+                return false;
+            }
+            if (MaxCountToplivo != other.MaxCountToplivo)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (ColorBody != other.ColorBody)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            Car warObj = obj as Car;
+            if (warObj == null) return false;
+            else return Equals(warObj);
+        }
+
+        public override int GetHashCode()
+        {
+            return MaxSpeed.GetHashCode();
+        }
     }
 }
+

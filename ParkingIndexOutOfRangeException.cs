@@ -1,12 +1,16 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Laba2
 {
-    [Serializable]
-   class ParkingIndexOutOfRangeException : Exception
+    class ParkingIndexOutOfRangeException : Exception
     {
         public ParkingIndexOutOfRangeException() :
-        base ("на парковке нет машины по такому месту"){}
+        base("На парковке нет машин по такому месту")
+        { }
     }
 }
+
