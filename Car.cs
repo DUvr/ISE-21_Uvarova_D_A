@@ -95,7 +95,6 @@ public override int MaxSpeed
             this.Weight = weight;
             this.countPassengers = 0;
             this.countToplivo = 0;
-           
         }
 
         public Car(string info)
