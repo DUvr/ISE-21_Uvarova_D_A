@@ -90,16 +90,16 @@ public class Main {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1579, 675);
+		frame.setBounds(100, 100, 1163, 712);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		panel = new Panel(parking);
-		panel.setBounds(10, 26, 1031, 742);
+		panel.setBounds(10, 26, 854, 473);
 		frame.getContentPane().add(panel);
 
 		JPanel panelTake = new JPanel();
-		panelTake.setBounds(1313, 13, 236, 170);
+		panelTake.setBounds(901, 11, 236, 170);
 		frame.getContentPane().add(panelTake);
 
 		JButton btnTake = new JButton("Забрать авто");
@@ -117,20 +117,20 @@ public class Main {
 
 			}
 		});
-		btnTake.setBounds(1378, 226, 153, 29);
+		btnTake.setBounds(901, 233, 153, 29);
 		frame.getContentPane().add(btnTake);
 
 		JLabel lblNewLabel = new JLabel("Место");
-		lblNewLabel.setBounds(1385, 202, 46, 14);
+		lblNewLabel.setBounds(912, 205, 46, 14);
 		frame.getContentPane().add(lblNewLabel);
 
 		numPlace = new JTextField();
-		numPlace.setBounds(1463, 196, 86, 20);
+		numPlace.setBounds(968, 202, 86, 20);
 		frame.getContentPane().add(numPlace);
 		numPlace.setColumns(10);
 
 		listLevels = new JList(elements);
-		listLevels.setBounds(1378, 357, 153, 111);
+		listLevels.setBounds(891, 373, 153, 111);
 		frame.getContentPane().add(listLevels);
 
 		JButton btnLevelDown = new JButton("<<");
@@ -141,7 +141,7 @@ public class Main {
 				panel.repaint();
 			}
 		});
-		btnLevelDown.setBounds(1359, 495, 89, 23);
+		btnLevelDown.setBounds(869, 495, 89, 23);
 		frame.getContentPane().add(btnLevelDown);
 
 		JButton btnLevelUp = new JButton(">>");
@@ -152,7 +152,7 @@ public class Main {
 				panel.repaint();
 			}
 		});
-		btnLevelUp.setBounds(1460, 495, 89, 23);
+		btnLevelUp.setBounds(973, 495, 89, 23);
 		frame.getContentPane().add(btnLevelUp);
 
 		JButton btnGetPlane = new JButton("Припарковать авто");
@@ -162,10 +162,50 @@ public class Main {
 				getPlane();
 			}
 		});
-		btnGetPlane.setBounds(1342, 275, 189, 48);
+		btnGetPlane.setBounds(927, 300, 189, 48);
 		frame.getContentPane().add(btnGetPlane);
 
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("File");
+		frame.setJMenuBar(menuBar);
+		menuBar.add(menu);
+		JMenuItem menuSave = new JMenuItem("Save");
+		menu.add(menuSave);
+		JMenuItem menuOpen = new JMenuItem("Open");
+		menu.add(menuOpen);
+
+		menuSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser filesave = new JFileChooser();
+
+				if (filesave.showDialog(null, "Save") == JFileChooser.APPROVE_OPTION) {
+					try {
+						if (parking.save(filesave.getSelectedFile().getPath()))
+							if (filesave.getSelectedFile().getPath() != null)
+								System.out.println("Good");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+
+		menuOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileopen = new JFileChooser();
+				if (fileopen.showDialog(null, "Open") == JFileChooser.APPROVE_OPTION) {
+					if (parking.load(fileopen.getSelectedFile().getPath()))
+						if (fileopen.getSelectedFile().getPath() != null)
+							System.out.println("Good");
+				}
+				panel.repaint();
+			}
+		});
+
 	}
+
 	private boolean checkPlace(String str) {
 		try {
 			Integer.parseInt(str);

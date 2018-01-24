@@ -16,5 +16,5 @@ public interface ITransport {
 
 	int getToplivo();
 	void setMainColor(Color color);
-	
+	String getInfo();
 }
