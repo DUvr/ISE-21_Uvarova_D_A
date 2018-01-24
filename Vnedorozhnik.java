@@ -1,7 +1,12 @@
+
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Vnedorozhnik extends Car {
+public class Vnedorozhnik extends Car implements Serializable {
 
 	private boolean sideBamper;
 	private boolean Zapaska;
@@ -53,5 +58,34 @@ public class Vnedorozhnik extends Car {
 		}
 
 	}
-	
+	public void setColorGruz(Color f) {
+		dopColor = f;
+	}
+	private void writeObject(ObjectOutputStream s) throws IOException {
+		s.defaultWriteObject();
+		s.writeInt(colorBody.getRed());
+		s.writeInt(colorBody.getGreen());
+		s.writeInt(colorBody.getBlue());
+		s.writeInt(dopColor.getRed());
+		s.writeInt(dopColor.getGreen());
+		s.writeInt(dopColor.getBlue());
+	}
+	private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+		 s.defaultReadObject();
+		 int red = s.readInt();
+		 int green = s.readInt();
+		 int blue = s.readInt();
+		 colorBody = new Color(red, green, blue);
+		 int red1 = s.readInt();
+		 int green1 = s.readInt();
+		 int blue1 = s.readInt();
+		 dopColor = new Color(red1, green1, blue1);
+	}
+	public String getInfo() {
+		// TODO Auto-generated method stub
+
+		return maxSpeed + ";" + countToplivo + ";" + weight + ";" + colorBody + ";" + countPassengers + ";" + Zapaska + ";" + sideBamper+ ";"
+				+ kolesa+ ";" +dopColor;
+
+	}
 }

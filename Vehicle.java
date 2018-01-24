@@ -8,9 +8,8 @@ public abstract class Vehicle implements ITransport {
 	public int maxSpeed;
 	public int weight;
 	public int countPassengers;
-
 	public int countToplivo;
-	public Color color;
+	transient public Color colorBody;
 
 	protected abstract void setmaxSpeed(int s);
 
@@ -36,4 +35,12 @@ public abstract class Vehicle implements ITransport {
 		startX = x;
 		startY = y;
 	}
+	public void setMainColor(Color c) {
+		colorBody = c;
+	}
+	public abstract String getInfo();
+
+	
+
+	
 }

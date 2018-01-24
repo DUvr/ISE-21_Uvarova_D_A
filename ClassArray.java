@@ -1,7 +1,9 @@
+import java.io.Serializable;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class ClassArray <T extends ITransport> {
+public class ClassArray <T extends ITransport> implements Serializable { 
+	
 	private Dictionary<Integer, T> places;
 	int maxCount;
 	private T defaultValue;
@@ -9,7 +11,7 @@ public class ClassArray <T extends ITransport> {
 	public ClassArray(int size, T defVal)
 	{
 		defaultValue = defVal;
-		places =new Hashtable<Integer, T>();
+		places = new Hashtable<Integer, T>();
 		maxCount = size;
 	}
 	
@@ -45,8 +47,8 @@ public class ClassArray <T extends ITransport> {
 		return false;
 	}
 	
-	public T getPlane(int ind)
-	{
+	
+	public T getPlane(int ind) {
 		if(places.get(ind)!=null) return places.get(ind);
 		return defaultValue;
 	}
