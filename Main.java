@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
@@ -42,6 +45,7 @@ public class Main {
 	private String[] elements = new String[6];
 	JList listLevels;
 	SelectPlane select;
+	private static Logger log;
 
 	/**
 	 * Launch the application.
@@ -65,6 +69,18 @@ public class Main {
 	public Main() {
 		parking = new Parking(5);
 
+		log = Logger.getLogger(Main.class.getName());
+		FileHandler fh = null;
+		try {
+			fh = new FileHandler("D:\\log.txt");
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		log.addHandler(fh);
 		initialize();
 		for (int i = 0; i < 5; i++) {
 			elements[i] = "Уровень " + (i + 1);
@@ -82,7 +98,17 @@ public class Main {
 		select = new SelectPlane(frame);
 		if (select.res()) {
 			ITransport plane = select.getPlane();
-			int place = parking.putPlaneInParking(plane);
+			int place = 0;
+			try {
+				place = parking.putPlaneInParking(plane);
+				log.log(Level.INFO, "Поставили Автомобиль на место " + place);
+			} catch (ParkingOverflowException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Ошибка переполнения");
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Общая ошибка");
+			}
 			panel.repaint();
 			System.out.println("Your place: " + place);
 		}
@@ -90,16 +116,16 @@ public class Main {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1163, 712);
+		frame.setBounds(100, 100, 1164, 610);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		panel = new Panel(parking);
-		panel.setBounds(10, 26, 854, 473);
+		panel.setBounds(10, 26, 854, 484);
 		frame.getContentPane().add(panel);
 
 		JPanel panelTake = new JPanel();
-		panelTake.setBounds(901, 11, 236, 170);
+		panelTake.setBounds(901, 11, 237, 170);
 		frame.getContentPane().add(panelTake);
 
 		JButton btnTake = new JButton("Забрать авто");
@@ -107,7 +133,16 @@ public class Main {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (checkPlace(numPlace.getText())) {
-					ITransport plane = parking.getPlaneInParking(Integer.parseInt(numPlace.getText()));
+					ITransport plane = null;
+					try {
+						plane = parking.getPlaneInParking(Integer.parseInt(numPlace.getText()));
+						log.log(Level.INFO, "Забрали автомобиль с места " + numPlace.getText());
+					} catch (ParkingIndexOutOfRangeException e) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, "Неверный номер");
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, "Общая ошибка");
+					}
 					Graphics gr = panelTake.getGraphics();
 					gr.clearRect(0, 0, panelTake.getWidth(), panelTake.getHeight());
 					plane.setPosition(50, 5);
@@ -138,6 +173,7 @@ public class Main {
 			public void actionPerformed(ActionEvent arg0) {
 				parking.levelDown();
 				listLevels.setSelectedIndex(parking.getCurrentLevel());
+				log.log(Level.INFO, "Спустились на уровень ниже");
 				panel.repaint();
 			}
 		});
@@ -149,6 +185,7 @@ public class Main {
 			public void actionPerformed(ActionEvent e) {
 				parking.levelUp();
 				listLevels.setSelectedIndex(parking.getCurrentLevel());
+				log.log(Level.INFO, "Поднялись на уровень выше");
 				panel.repaint();
 			}
 		});
@@ -162,7 +199,7 @@ public class Main {
 				getPlane();
 			}
 		});
-		btnGetPlane.setBounds(927, 300, 189, 48);
+		btnGetPlane.setBounds(901, 300, 153, 40);
 		frame.getContentPane().add(btnGetPlane);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -182,8 +219,11 @@ public class Main {
 				if (filesave.showDialog(null, "Save") == JFileChooser.APPROVE_OPTION) {
 					try {
 						if (parking.save(filesave.getSelectedFile().getPath()))
-							if (filesave.getSelectedFile().getPath() != null)
+							if (filesave.getSelectedFile().getPath() != null) {
 								System.out.println("Good");
+								log.log(Level.INFO,
+										"Сохранили аэродром в файл " + filesave.getSelectedFile().getName());
+							}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -197,8 +237,10 @@ public class Main {
 				JFileChooser fileopen = new JFileChooser();
 				if (fileopen.showDialog(null, "Open") == JFileChooser.APPROVE_OPTION) {
 					if (parking.load(fileopen.getSelectedFile().getPath()))
-						if (fileopen.getSelectedFile().getPath() != null)
+						if (fileopen.getSelectedFile().getPath() != null) {
 							System.out.println("Good");
+							log.log(Level.INFO,"Загрузили аэродром из файла " + fileopen.getSelectedFile().getName());
+						}
 				}
 				panel.repaint();
 			}

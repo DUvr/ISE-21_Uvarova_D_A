@@ -7,9 +7,9 @@ import java.io.Serializable;
 
 public class Car extends Vehicle implements Serializable { 
 
-	public Car(int maxSpeed, int countToplivo, int countPassengers, int weight, Color colorCar) {
+	public Car(int maxSpeed, int countСapacitys, int countPassengers, int weight, Color colorCar) {
 		this.maxSpeed = maxSpeed;
-		this.countToplivo = countToplivo;
+		this.countСapacitys = countСapacitys;
 		this.weight = weight;
 		this.colorBody = colorCar;
 		this.countPassengers = countPassengers;
@@ -64,24 +64,24 @@ public class Car extends Vehicle implements Serializable {
 		return super.countPassengers;
 	}
 
-	protected void setcountToplivo(int h) {
+	protected void setcountСapacitys(int h) {
 		// TODO Auto-generated method stub
-		if (h > 0 && h < 40)
-			super.countToplivo = h;
+		if (h > 0 && h < 8000)
+			super.countСapacitys = h;
 		else
-			super.countToplivo = 15;
+			super.countСapacitys = 5000;
 	}
 
 	@Override
-	public int getcountToplivo() {
+	public int getcountСapacitys() {
 		// TODO Auto-generated method stub
-		return super.countToplivo;
+		return super.countСapacitys;
 	}
 
 	@Override
 	public void move(Graphics g) {
 		// TODO Auto-generated method stub
-		startX += (int) (getmaxSpeed() * 50 / getWeight() / (countToplivo == 0 ? 1 : countToplivo));
+		startX += (int) (getmaxSpeed() * 50 / getWeight() / (countСapacitys == 0 ? 1 : countСapacitys));
 		draw(g);
 	}
 
@@ -92,35 +92,49 @@ public class Car extends Vehicle implements Serializable {
 	}
 	
 	protected void drawCarPlane(Graphics g) {
+		g.setColor(colorBody);
+		g.drawOval(startX, startY, 20, 20);
+		g.drawOval(startX, startY + 30, 20, 20);
+		g.drawOval(startX + 70, startY, 20, 20);
+		g.drawOval(startX + 70, startY + 30, 20, 20);
+		g.drawRect(startX - 1, startY + 10, 10, 30);
+		g.drawRect(startX + 80, startY + 10, 10, 30);
+		g.drawRect(startX + 10, startY - 1, 70, 52);
+
+		// задние фары
+		g.setColor(Color.RED);
+		g.fillOval(startX, startY, 20, 20);
+		g.fillOval(startX, startY + 30, 20, 20);
+
+		// передние фары
+		g.setColor(Color.YELLOW);
+		g.fillOval(startX + 70, startY, 20, 20);
+		g.fillOval(startX + 70, startY + 30, 20, 20);
+
 		// кузов
-				g.setColor(colorBody);
-		        g.fillRect(startX, startY, 150, 100);
-		        g.fillRect(startX + 180, startY , 30, 100);
-				
+		g.setColor(colorBody);
+		g.fillRect(startX - 50, startY + 10, 60, 30);
+		g.fillRect(startX + 80, startY + 10, 10, 30);
+		g.fillRect(startX + 10, startY, 70, 50);
 
-				// стекла
-				g.setColor(Color.BLUE);
-				g.fillRect(startX-10, startY, 10, 100);
-		        g.fillRect(startX + 150, startY, 30, 100);
+		// стекла
+		g.setColor(Color.BLUE);
+		g.fillRect(startX + 60, startY + 5, 5, 40);
+		g.fillRect(startX + 20, startY + 5, 5, 40);
+		g.fillRect(startX + 25, startY + 3, 35, 2);
+		g.fillRect(startX + 25, startY + 46, 35, 2);
 
-				// выделяем рамкой крышу
-				g.setColor(Color.BLACK);
-				 g.drawRect(startX, startY, 150, 100);
-		         g.drawRect(startX + 180, startY, 30, 100);
-		         g.drawRect(startX-10, startY, 220, 100);
-		         
-		       //фары
-		         g.setColor(Color.YELLOW);
-		         g.fillRect(startX+200, startY, 10, 30);
-		         g.fillRect(startX + 200, startY+70, 10, 30);
-		         g.setColor(Color.RED);
-		         g.fillRect(startX -15, startY, 5, 20);
-		         g.fillRect(startX -15, startY+80 , 5, 20);
+		// выделяем рамкой крышу
+		g.setColor(Color.BLACK);
+		g.drawRect(startX + 25, startY + 5, 35, 40);
+		g.drawRect(startX + 65, startY + 10, 25, 30);
+		g.drawRect(startX, startY + 10, 15, 30);
+
 	}
 	@Override
 		public String getInfo() {
 			// TODO Auto-generated method stub
-			return maxSpeed + ";" + countToplivo + ";" + weight + ";" + countPassengers + ";" + colorBody;
+			return maxSpeed + ";" + countСapacitys + ";" + weight + ";" + countPassengers + ";" + colorBody;
 	
 		}
 		
@@ -148,7 +162,7 @@ public class Car extends Vehicle implements Serializable {
 	}
 
 	@Override
-	public void loadToplivo(int count) {
+	public void loadСapacity(int count) {
 		// TODO Auto-generated method stub
 
 	}
@@ -160,7 +174,7 @@ public class Car extends Vehicle implements Serializable {
 	}
 
 	@Override
-	public int getToplivo() {
+	public int getСapacity() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

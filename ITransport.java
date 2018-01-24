@@ -10,11 +10,11 @@ public interface ITransport {
 
 	void loadPassenger(int count);
 
-	void loadToplivo(int count);
+	void load—apacity(int count);
 
 	int getPassenger();
 
-	int getToplivo();
+	int get—apacity();
 	void setMainColor(Color color);
 	String getInfo();
 }

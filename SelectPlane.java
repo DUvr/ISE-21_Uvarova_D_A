@@ -51,7 +51,7 @@ public class SelectPlane extends JDialog {
 		lblPlane.setBounds(10, 11, 46, 14);
 		this.getContentPane().add(lblPlane);
 
-		JLabel lblFighter = new JLabel("Внедорожник");
+		JLabel lblFighter = new JLabel("Грузовик");
 		lblFighter.setForeground(Color.RED);
 		lblFighter.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblFighter.setBounds(10, 39, 77, 32);
@@ -112,8 +112,8 @@ public class SelectPlane extends JDialog {
 					for (DataFlavor df : e.getTransferable().getTransferDataFlavors()) {
 						if (e.getTransferable().getTransferData(df) == "Авто") {
 							plane = new Car(100, 10, 100, 100, Color.WHITE);
-						} else if (e.getTransferable().getTransferData(df) == "Внедорожник") {
-							plane = new Vnedorozhnik(100, 10, 100, 100, Color.WHITE, true, true,true, Color.BLACK);
+						} else if (e.getTransferable().getTransferData(df) == "Грузовик") {
+							plane = new Gruzovik(100, 10, 100, 100, Color.WHITE, true, true,true, Color.BLACK);
 						}
 						draw(panel, plane);
 					}
@@ -186,7 +186,7 @@ public class SelectPlane extends JDialog {
 					try {
 
 						for (DataFlavor df : e.getTransferable().getTransferDataFlavors()) {
-							((Vnedorozhnik) plane)
+							((Gruzovik) plane)
 									.setColorGruz((selectColor(e.getTransferable().getTransferData(df).toString())));
 							draw(panel, plane);
 						}
